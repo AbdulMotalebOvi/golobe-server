@@ -46,9 +46,8 @@ async function run() {
 
         app.get('/placeName', async (req, res) => {
             const placed = req.query.place
-            const query = { place: { $regex: placed, $options: 'i' } };
-            const options = { sort: { place: 1 } };
-            const result = await placesCollection.find(query, options).toArray()
+            const query = { place: placed }
+            const result = await placesCollection.find(query).toArray()
             res.send(result)
         })
         app.get('/places', async (req, res) => {
@@ -63,6 +62,7 @@ async function run() {
         })
         app.get('/places/:id', async (req, res) => {
             const id = req.params.id
+
             const query = { _id: new ObjectId(id) }
             const result = await placesCollection.findOne(query)
             res.send(result)
